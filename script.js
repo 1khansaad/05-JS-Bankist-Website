@@ -7,6 +7,8 @@ const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
+const btnScrolTo = document.querySelector('.btn--scroll-to')
+const section1 = document.getElementById('section--1')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -45,15 +47,7 @@ x.addEventListener('click', function(){
   message.remove()
 })
 
-// style 
-
-message.style.backgroundColor = '#37383d'
-message.style.width = '100%'
-
 // smooth scrolling
-
-const btnScrolTo = document.querySelector('.btn--scroll-to')
-const section1 = document.getElementById('section--1')
 
 btnScrolTo.addEventListener('click', function(e){
   // const sec1Coords = section1.getBoundingClientRect();
@@ -77,3 +71,27 @@ btnScrolTo.addEventListener('click', function(e){
   section1.scrollIntoView({behavior : 'smooth'})
 })
 
+// page navigation
+
+// const link = document.querySelectorAll('.nav__link')
+// link.forEach((el) => el.addEventListener('click', function(e){
+//   e.preventDefault()
+//   const id = e.target.getAttribute('href')
+//   const element = document.querySelector(id)
+//   element.scrollIntoView({
+//     behavior : 'smooth'
+//   })
+// }))
+
+
+const a = document.querySelector('.nav__links')
+a.addEventListener('click', function(e){
+  e.preventDefault()
+  if(e.target.classList.contains('nav__link')){ 
+    const id = e.target.getAttribute('href')
+    const xx = document.querySelector(id)
+    xx.scrollIntoView({
+      behavior : 'smooth'
+    })
+  }
+})
