@@ -9,13 +9,6 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrolTo = document.querySelector('.btn--scroll-to')
 const section1 = document.getElementById('section--1')
-const header = document.querySelector('.header')
-const btnCloseCookie = document.querySelector('.btn--close-cookie')
-const navLinks = document.querySelector('.nav__links')
-const tabs = document.querySelectorAll('.operations__tab') ;
-const tabsContainer = document.querySelector('.operations__tab-container');
-const tabsContent = document.querySelectorAll('.operations__content');
-const nav = document.querySelector('.nav')
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -42,13 +35,15 @@ document.addEventListener('keydown', function (e) {
 
 // adding and removing cookies message
 
+const header = document.querySelector('.header')
 const message = document.createElement('div')
 message.classList.add('cookie-message')
 message.innerHTML = 'We use cookies for improve functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>'
 // header.prepend(message)
 header.append(message)
 
-btnCloseCookie.addEventListener('click', function(){
+const x = document.querySelector('.btn--close-cookie')
+x.addEventListener('click', function(){
   message.remove()
 })
 
@@ -89,18 +84,23 @@ btnScrolTo.addEventListener('click', function(e){
 // }))
 
 
-navLinks.addEventListener('click', function(e){
+const a = document.querySelector('.nav__links')
+a.addEventListener('click', function(e){
   e.preventDefault()
   if(e.target.classList.contains('nav__link')){ 
     const id = e.target.getAttribute('href')
-    const sectionSelector = document.querySelector(id)
-    sectionSelector.scrollIntoView({
+    const xx = document.querySelector(id)
+    xx.scrollIntoView({
       behavior : 'smooth'
     })
   }
 })
 
 // bulding a tabbed component
+
+const tabs = document.querySelectorAll('.operations__tab') ;
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 tabsContainer.addEventListener('click', function(e){
   const clicked = e.target.closest('.operations__tab');
@@ -113,6 +113,8 @@ tabsContainer.addEventListener('click', function(e){
 })
 
 // implementing  menu fade animation
+
+const nav = document.querySelector('.nav')
 
 const handleHover = function(e){
   if(e.target.classList.contains('nav__link')){
@@ -143,10 +145,7 @@ nav.addEventListener('mouseout', handleHover.bind(1))
 //   }
 // })
 
-
-
 // implementing The intersection observer API
-
 // const header = document.querySelector('.header') already selected up
 const navHeight = nav.getBoundingClientRect().height
 
@@ -157,6 +156,7 @@ const navCallback = function(entries){
   }  else{
     nav.classList.remove('sticky')
   }
+  
 }
 
 const options = {
@@ -164,6 +164,5 @@ const options = {
   threshold: 0,
   rootMargin: `-${navHeight}px`
 }
-
 const headerObserver = new IntersectionObserver(navCallback, options)
 headerObserver.observe(header)
