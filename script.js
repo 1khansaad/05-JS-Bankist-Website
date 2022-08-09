@@ -166,3 +166,36 @@ const options = {
 }
 const headerObserver = new IntersectionObserver(navCallback, options)
 headerObserver.observe(header)
+
+// Reveling elements on scroll
+
+const allSections = document.querySelectorAll('.section')
+
+
+const revealCallback = function(entries, observer){
+  const [entry] = entries;
+  console.log(entry)
+
+  // if(!entry.isIntersecting)return;
+
+  //   entry.target.classList.remove('section--hidden')
+  //   observer.unobserve(entry.target)
+
+  if(entry.isIntersecting){
+    entry.target.classList.remove('section--hidden')
+    observer.unobserve(entry.target)
+  }
+}
+
+const optionReveal = {
+  root: null,
+  threshold: 0.15,
+}
+
+const sectionObserver = new IntersectionObserver(revealCallback, optionReveal)
+
+allSections.forEach(el => {
+  sectionObserver.observe(el)
+  el.classList.add('section--hidden')
+})
+
