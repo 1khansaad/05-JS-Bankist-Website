@@ -195,7 +195,7 @@ const sectionObserver = new IntersectionObserver(revealCallback, optionReveal)
 
 allSections.forEach(el => {
   sectionObserver.observe(el)
-  el.classList.add('section--hidden')
+  // el.classList.add('section--hidden')
 })
 
 
@@ -224,3 +224,49 @@ const imgOptions = {
 
 const imgObserver = new IntersectionObserver(imgCallback, imgOptions)
 imgTarget.forEach(el => imgObserver.observe(el))
+
+// implementing slider
+
+const slides = document.querySelectorAll('.slide')
+const btnright = document.querySelector('.slider__btn--right')
+const btnleft = document.querySelector('.slider__btn--left')
+
+let currentslide = 0;
+const maxSlide = slides.length - 1;
+
+slides.forEach((slide, i) => {
+  slide.style.transform = `translateX(${i * 100}%)`
+})
+
+const nextSlide = function(){
+  if(currentslide === maxSlide){
+    currentslide = 0;
+  }else{
+    currentslide++
+  }
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - currentslide) * 100}%)`
+  })
+}
+
+const previousSlide = function(){
+  if(currentslide === 0){
+    currentslide = maxSlide;
+  }else{
+    currentslide--
+  }
+  slides.forEach((slide, i) => {
+    slide.style.transform = `translateX(${(i - currentslide) * 100}%)`
+  })
+}
+
+btnright.addEventListener('click', nextSlide)
+btnleft.addEventListener('click', previousSlide)
+
+document.addEventListener('keydown', function(e){
+  if(e.key === 'ArrowRight'){
+    nextSlide()
+  }else if(e.key === 'ArrowLeft'){
+    previousSlide()
+  }
+})
