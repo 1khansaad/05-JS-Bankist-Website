@@ -9,6 +9,10 @@ const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrolTo = document.querySelector('.btn--scroll-to')
 const section1 = document.getElementById('section--1')
+const dotContainer = document.querySelector('.dots');
+const header = document.querySelector('.header')
+const message = document.createElement('div')
+
 
 const openModal = function () {
   modal.classList.remove('hidden');
@@ -34,16 +38,13 @@ document.addEventListener('keydown', function (e) {
 
 
 // adding and removing cookies message
-
-const header = document.querySelector('.header')
-const message = document.createElement('div')
 message.classList.add('cookie-message')
 message.innerHTML = 'We use cookies for improve functionality and analytics. <button class="btn btn--close-cookie">Got it!</button>'
 // header.prepend(message)
 header.append(message)
 
-const x = document.querySelector('.btn--close-cookie')
-x.addEventListener('click', function(){
+const btnCloseCookie = document.querySelector('.btn--close-cookie')
+btnCloseCookie.addEventListener('click', function(){
   message.remove()
 })
 
@@ -84,8 +85,8 @@ btnScrolTo.addEventListener('click', function(e){
 // }))
 
 
-const a = document.querySelector('.nav__links')
-a.addEventListener('click', function(e){
+const navLinks = document.querySelector('.nav__links')
+navLinks.addEventListener('click', function(e){
   e.preventDefault()
   if(e.target.classList.contains('nav__link')){ 
     const id = e.target.getAttribute('href')
@@ -230,9 +231,16 @@ imgTarget.forEach(el => imgObserver.observe(el))
 const slides = document.querySelectorAll('.slide')
 const btnright = document.querySelector('.slider__btn--right')
 const btnleft = document.querySelector('.slider__btn--left')
+const slider = document.querySelector('.slider')
 
 let currentslide = 0;
 const maxSlide = slides.length - 1;
+
+const activateDot = function(slide){
+  document.querySelectorAll('.dots__dot').forEach(dot => dot.classList.remove('dots__dot--active'))
+  document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add('dots__dot--active')
+}
+// activateDot(0)
 
 slides.forEach((slide, i) => {
   slide.style.transform = `translateX(${i * 100}%)`
@@ -247,6 +255,7 @@ const nextSlide = function(){
   slides.forEach((slide, i) => {
     slide.style.transform = `translateX(${(i - currentslide) * 100}%)`
   })
+  activateDot(currentslide)
 }
 
 const previousSlide = function(){
@@ -258,6 +267,7 @@ const previousSlide = function(){
   slides.forEach((slide, i) => {
     slide.style.transform = `translateX(${(i - currentslide) * 100}%)`
   })
+  activateDot(currentslide)
 }
 
 btnright.addEventListener('click', nextSlide)
@@ -268,5 +278,28 @@ document.addEventListener('keydown', function(e){
     nextSlide()
   }else if(e.key === 'ArrowLeft'){
     previousSlide()
+  }
+})
+
+// implementing Dot slider
+
+const createDots = function(){
+  slides.forEach((s, i) => {
+    dotContainer.insertAdjacentHTML('beforeend', `<button class="dots__dot" data-slide="${i}"></button>`)
+  })
+}
+createDots()
+
+const goToSlide = function(slide){
+  slides.forEach(
+    (s, i) => (s.style.transform = `translateX(${100 * (i - slide)}%)`)
+  )
+}
+
+dotContainer.addEventListener('click', function(e){
+  if(e.target.classList.contains('dots__dot')){
+    const {slide} = e.target.dataset;
+    goToSlide(slide)
+    activateDot(slide)
   }
 })
